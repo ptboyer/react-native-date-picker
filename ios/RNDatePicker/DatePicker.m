@@ -33,15 +33,15 @@
     if([cleanString length] == 6) {
         cleanString = [cleanString stringByAppendingString:@"ff"];
     }
-    
+
     unsigned int baseValue;
     [[NSScanner scannerWithString:cleanString] scanHexInt:&baseValue];
-    
+
     float red = ((baseValue >> 24) & 0xFF)/255.0f;
     float green = ((baseValue >> 16) & 0xFF)/255.0f;
     float blue = ((baseValue >> 8) & 0xFF)/255.0f;
     float alpha = ((baseValue >> 0) & 0xFF)/255.0f;
-    
+
     return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
 }
 
@@ -61,11 +61,17 @@
     NSScanner *scanner = [NSScanner scannerWithString:hexColor];
     [scanner setScanLocation:1]; // bypass '#' character
     [scanner scanHexInt:&intColor];
-    
+
     // Setting picker text color
     [self setValue:UIColorFromRGB(intColor) forKeyPath:@"textColor"];
 }
 
+- (void)setHighlightsTodayProp:(BOOL)highlightsToday
+{
+    if (highlightsToday == NO) {
+        [self performSelector:@selector(setHighlightsToday:) withObject:NO];
+    }
+}
 
 RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
 
